@@ -1,6 +1,9 @@
-# Semaphore
-Only for test, how to use GitHub
+# Semaphore with IR remote controler
 
+**Motivation**: create toy for 2 years baby for increasing knowlage about behavior in crossroads :)
+
+Only for test, how to use GitHub
+[ E-shop toy - **Train with remote IR control**](https://www.lidl-shop.cz/PLAYTIVE-JUNIOR-Vlacek-na-dalkove-ovladani/p100246613)
 
 |  Mode | Lever UP (hold)| Lever UP (Tip.)| Lever DOWN (hold) | Lever UP (tip)|
 | :----:  | -------------  |:-------------: | ------:           |  -----        |
