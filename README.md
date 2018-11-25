@@ -9,3 +9,6 @@ Only for test, how to use GitHub
 | :----:  | -------------  |:-------------: | ------:           |  -----        |
 | A       | 0x       | 0x       |   $12 |||
 | B       | 0x  | 0x       |    $1 |||
+
+## Parts
+[Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
