@@ -31,6 +31,16 @@
 #include "IRLremote.h"
 #include "SemaphoreTypes.h"
 
+//#define DEBUG //Comment this for stop debuging
+#ifdef DEBUG
+	#define PRINT(x) Serial.print(x)
+	#define PRINTLN(x) Serial.println(x)
+#else
+	#define PRINT(x)
+	#define PRINTLN(x)
+#endif
+
+
 /*LEDs pins*/
 #define pinLedRed 6
 #define pinLedOrange 7
@@ -100,8 +110,8 @@ void SemManualStepIncrease(void){
 		step = 0;
 	}
 	SetSemColor((SemColor_T)step);
-	Serial.print(F("Man_Step: "));
-	Serial.println(step);
+	PRINT(F("Man_Step: "));
+	PRINTLN(step);
 }
 /*Debounce*/
 //todo not used for Capacity button
@@ -134,8 +144,8 @@ void ReadControlSelection(void){
 	int actualRead = digitalRead(pinSwitchMode);
 
 	if (( actualRead != oldRead)){
-		Serial.print(F("Switch "));
-		Serial.println(actualRead);
+		PRINT(F("Switch "));
+		PRINTLN(actualRead);
 		if(actualRead == 0u){
 			SemControl = IR2Manual;
 		}else{
@@ -154,19 +164,19 @@ SemIRStates_T RxDecode(RxData_T * rx){
 				||                                                      \
 			rx->RxBuffer[Frame_0] == IrRxCommnad[symbol][ModeB][0]	)
 		{
-			Serial.println(F("Dec1 OK"));
+			PRINTLN(F("Dec1 OK"));
 			/*First*/
 			if(rx->RxBuffer[Frame_1] == IrRxCommnad[symbol][ModeA][1]  \
 			   ||	                                                   \
 			   rx->RxBuffer[Frame_1] == IrRxCommnad[symbol][ModeB][1])
 			{
-				Serial.println(F("Dec2 OK"));
+				PRINTLN(F("Dec2 OK"));
 				if((symbol == 0)||(symbol == 2)){
 					retval = Go2Stop;
-					Serial.println(F("Decode Go2Stop"));
+					PRINTLN(F("Decode Go2Stop"));
 				}else{
 					retval = Go2Run;
-					Serial.println(F("Decode Go2Run"));
+					PRINTLN(F("Decode Go2Run"));
 				}
 				//TODO break;
 				}
@@ -218,10 +228,11 @@ void SemIRStateMachine(SemIRStates_T * state){
 }
 
 void setup(){
-	 while (!Serial);
-	  Serial.begin(115200);
-	  Serial.println(F("Startup"));
-
+#ifdef DEBUG
+	while (!Serial);
+	Serial.begin(115200);
+	PRINTLN(F("Startup"));
+#endif
 	pinMode(pinLedRed, OUTPUT);
 	pinMode(pinLedOrange, OUTPUT);
 	pinMode(pinLedGren, OUTPUT);
@@ -254,7 +265,7 @@ void loop (){
 			if(actBtn != oldBtn){
 				if(actBtn == TRUE){
 					SemManualStepIncrease();
-					Serial.print(F("T "));
+					PRINT(F("T "));
 					Led_ON;
 				}else{
 					Led_OFF;
@@ -279,9 +290,9 @@ void loop (){
 					HashIR_data_t rx_data = IRLremote.read();
 					RxData.RxBuffer[RxData.dataIndex] = rx_data.command;
 
-					Serial.print(RxData.dataIndex);
-					Serial.print(F(" Rx "));
-					Serial.println(rx_data.command, HEX);
+					PRINT(RxData.dataIndex);
+					PRINT(F(" Rx "));
+					PRINTLN(rx_data.command);
 
 					if(RxData.dataIndex < BUFFER_SIZE){
 						RxData.dataIndex++;
@@ -295,16 +306,16 @@ void loop (){
 				Led_OFF;
 				if(RxData.dataIndex != 0){
 					SemIRState = RxDecode(&RxData);
-//					Serial.print(F("Decode "));
-//					Serial.println(SemIRState);
+//					PRINT(F("Decode "));
+//					PRINTLN(SemIRState);
 
 					/*clear buffer */
 					do{
 						RxData.RxBuffer[RxData.dataIndex--] = 0;   //index --
-						Serial.print(RxData.dataIndex);
+						PRINT(RxData.dataIndex);
 					}while(RxData.dataIndex > 0);
 
-					Serial.println(F("clear"));
+					PRINTLN(F("clear"));
 				}
 			}
 
