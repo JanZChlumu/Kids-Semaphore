@@ -1,4 +1,5 @@
 # Semaphore with IR remote controler
+<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150">
 
 **Motivation**: create toy for 2 years baby for increasing knowlage about behavior in crossroads :)
 
@@ -16,9 +17,19 @@ Toy has 2 modes:
 * [Capacity button] (https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
 
 ## IR description
-For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, with different libraries, differend results will be obtained.
+For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data on your transmitter. For this situation is designed macro for debug
+> #define DEBUG //Comment this for stop debuging
 
-Joystick has two modes A or B. With given library was received folowing datagrams. 
+Joystick has two modes A or B. Lever has 4 states. 
+- UP
+  - Tip position (stop the train)
+  - Long hold (run the train)
+- DOWN
+  - Tip position (stop the train)
+  - Long hold (run the train)
+  
+ With given library was received folowing datagrams. 
+
 **Mode A**
 
 |Rx data|UP tip	   |UP long   |	DOWN tip  |	DOWN long |
@@ -37,3 +48,17 @@ Joystick has two modes A or B. With given library was received folowing datagram
 |1      |0x33B86A7A|0xC4EF317A|	0x33B86A7A| 0x364CCA7A|
 |2      |0x33B86A7A|0xC4EF317A|	0x33B86A7A|	0x364CCA7A|
 |3      |0x33B86A7A|          | 0x33B86A7A|	          |
+
+For easy implementation are read and decoded only 2 first rx data. Relevant combinatis are stored in
+>/*commands received from train joystick*/
+
+>const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A/B], [two first commnads ]
+
+>		{{0xC4EF317A,0x33B86A7A},{0x90B1027A,0xFF7A3B7A}} ,       /*Forward move TIP  -> Go2Stop*/
+
+>		{{0xC4EF317A,0xC4EF317A},{0x90B1027A,0x90B1027A}} ,       /*Forward move LONG -> Go2Run */
+
+>		{{0x364CCA7A,0x33B86A7A},{0x20E9B7A, 0xFF7A3B7A}} ,       /*Reverse move TIP  -> Go2Stop*/
+
+>		{{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
+
