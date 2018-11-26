@@ -11,7 +11,9 @@ Toy has 2 modes:
 - **IR mode**: Semaphore is driven by receiving signals from remote controller. Was used IR Tx joystick from this toy [ **Train with remote IR control**](https://www.lidl-shop.cz/PLAYTIVE-JUNIOR-Vlacek-na-dalkove-ovladani/p100246613)
 
 ## Semaphore parts
-[Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
+* [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
+* [Arduino nano] (https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
+* [Capacity button] (https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
 
 ## IR description
 For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, with different libraries, differend results will be obtained.
