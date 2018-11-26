@@ -13,13 +13,14 @@ Toy has 2 modes:
 
 ## Semaphore parts
 * [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
-* [Arduino nano] (https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
-* [Capacity button] (https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
+* [Arduino nano](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
+* [Capacity button](https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
 
 ## IR description
 For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data on your transmitter. For this situation is designed macro for debug
-> #define DEBUG //Comment this for stop debuging
-
+'''cpp
+#define DEBUG //Comment this for stop debuging
+'''
 Joystick has two modes A or B. Lever has 4 states. 
 - UP
   - Tip position (stop the train)
@@ -34,10 +35,10 @@ Joystick has two modes A or B. Lever has 4 states.
 
 |Rx data|UP tip	   |UP long   |	DOWN tip  |	DOWN long |
 | ---   | -------- | -------- | --------- | --------- |
-|0      |0x90B1027A	|0x90B1027A	|0x20E9B7A	|0x20E9B7A|
-|1      |0xFF7A3B7A	|0x90B1027A	|0xFF7A3B7A	|0x20E9B7A|
-|2      |0xFF7A3B7A	|0x90B1027A	|0xFF7A3B7A	|0x20E9B7A|
-|3      |0xFF7A3B7A |           |0xFF7A3B7A|	
+|0      |0x90B1027A|0x90B1027A	|0x20E9B7A|0x20E9B7A|
+|1      |0xFF7A3B7A|0x90B1027A	|0xFF7A3B7A|0x20E9B7A|
+|2      |0xFF7A3B7A|0x90B1027A	|0xFF7A3B7A|0x20E9B7A|
+|3      |0xFF7A3B7A|            |0xFF7A3B7A|	
 
 
 **Mode B**
@@ -56,5 +57,5 @@ const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A
 		{{0xC4EF317A,0x33B86A7A},{0x90B1027A,0xFF7A3B7A}} ,       /*Forward move TIP  -> Go2Stop*/
 		{{0xC4EF317A,0xC4EF317A},{0x90B1027A,0x90B1027A}} ,       /*Forward move LONG -> Go2Run */
 		{{0x364CCA7A,0x33B86A7A},{0x20E9B7A, 0xFF7A3B7A}} ,       /*Reverse move TIP  -> Go2Stop*/
-    {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
+                {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
 ```
