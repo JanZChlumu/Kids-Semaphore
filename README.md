@@ -11,13 +11,6 @@ Toy has 2 modes:
 - **Manual**: By touching the cover, colours are changed.
 - **IR mode**: Semaphore is driven by receiving signals from remote controller. Was used IR Tx joystick from this toy [ **Train with remote IR control**](https://www.lidl-shop.cz/PLAYTIVE-JUNIOR-Vlacek-na-dalkove-ovladani/p100246613)
 
-## Semaphore parts
-* [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
-* [Arduino nano](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
-* [Capacity button](https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
-* [IR module] (https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
-* [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
-
 ### Manual control
 Is really simple by touching semaphore head are cyclicaly changed states: Stop (red), Ready (orange), Go (green), Prepare for stop (red+orange).
 
@@ -26,13 +19,13 @@ For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood
 ```cpp
 #define DEBUG //Comment this for stop debuging
 ```
-Joystick has two modes A or B. Lever has 4 states. 
+Joystick has two modes A or B with different transmited data. Lever has 4 states. 
 - UP
   - Tip position (stop the train)
-  - Long hold (run the train)
+  - Hold long (run the train)
 - DOWN
   - Tip position (stop the train)
-  - Long hold (run the train)
+  - Hold long (run the train)
   
  With given library was received folowing datagrams. 
 
@@ -64,3 +57,14 @@ const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A
 		{{0x364CCA7A,0x33B86A7A},{0x20E9B7A, 0xFF7A3B7A}} ,       /*Reverse move TIP  -> Go2Stop*/
                 {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
 ```
+
+## Compilation
+Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
+## Semaphore parts
+* [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
+* [Arduino nano](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
+* [Capacity button](https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
+* [IR module](https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
+* [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
+* [LEDs](https://www.tme.eu/cz/Document/01421dc8dab8fa585126521a0ba7da49/OSXXXXA1K4A.pdf)
+* STL models (see STL model)
