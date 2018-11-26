@@ -48,7 +48,11 @@ Joystick has two modes A or B with different transmited data. Lever has 4 states
 |2      |0x33B86A7A|0xC4EF317A|	0x33B86A7A|	0x364CCA7A|
 |3      |0x33B86A7A|          | 0x33B86A7A|	          |
 
-For easy implementation are read and decoded only 2 first rx data. Relevant combinatis are stored in
+
+The longerst datagram (with 4 Rx data) takes approx 500ms. Folder _Semafor_IR_datagram_ contains Tx datagrams from aplication Salae Logic. 
+I solved lot of problems with IRLremote library. Best solution was create big buffer, after receiving first edge timeout function is triggered. We stop receiveing after 650ms (condition ```if(IRLremote.timeout() > 650000u)``` ). Next step is tring to decode buffered data. 
+
+For easy implementation are read and decoded only 2 first rx data. Relevant joystick lever combinations are stored in
 ```cpp
 /*commands received from train joystick*/
 const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A/B], [two first commnads ]
@@ -57,7 +61,8 @@ const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A
 		{{0x364CCA7A,0x33B86A7A},{0x20E9B7A, 0xFF7A3B7A}} ,       /*Reverse move TIP  -> Go2Stop*/
                 {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
 ```
-
+### Battery & discharging
+Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate, only orange LED is cyclic blinking (like in real situation - when traffic lights are out of order).
 ## Compilation
 Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
@@ -67,4 +72,5 @@ Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Sem
 * [IR module](https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
 * [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
 * [LEDs](https://www.tme.eu/cz/Document/01421dc8dab8fa585126521a0ba7da49/OSXXXXA1K4A.pdf)
+* Battery 18650
 * STL models (see STL model)
