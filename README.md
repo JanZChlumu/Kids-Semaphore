@@ -15,12 +15,17 @@ Toy has 2 modes:
 * [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
 * [Arduino nano](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
 * [Capacity button](https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
+* [IR module] (https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
+* [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
 
-## IR description
-For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data on your transmitter. For this situation is designed macro for debug
-'''cpp
+### Manual control
+Is really simple by touching semaphore head are cyclicaly changed states: Stop (red), Ready (orange), Go (green), Prepare for stop (red+orange).
+
+### IR control description
+For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data with your transmitter. For this situation is designed macro for debug
+```cpp
 #define DEBUG //Comment this for stop debuging
-'''
+```
 Joystick has two modes A or B. Lever has 4 states. 
 - UP
   - Tip position (stop the train)
