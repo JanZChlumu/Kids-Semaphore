@@ -1,21 +1,21 @@
 # Semaphore with IR remote controler
 <img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150">
 
-**Motivation**: create toy for 2 years baby for increasing knowlage about behavior in crossroads :)
+**Motivation**: create toy for 2 years child for increasing knowlage about behavior on crossroads :)
 
 ## Description:
-Semaphore leg is designed like LEGO Duplo compatible, could be connected with bricks.
+Semaphore leg is designed to be LEGO Duplo compatible. It could be connected with bricks.
 
 Toy has 2 modes:
 
 - **Manual**: By touching the cover, colours are changed.
-- **IR mode**: Semaphore is driven by receiving signals from remote controller. Was used IR Tx joystick from this toy [ **Train with remote IR control**](https://www.lidl-shop.cz/PLAYTIVE-JUNIOR-Vlacek-na-dalkove-ovladani/p100246613)
+- **IR mode**: Semaphore is driven by receiving signals from remote controller. It is used IR Tx joystick from this toy [ **Train with remote IR control**](https://www.lidl-shop.cz/PLAYTIVE-JUNIOR-Vlacek-na-dalkove-ovladani/p100246613)
 
 ### Manual control
-Is really simple by touching semaphore head are cyclicaly changed states: Stop (red), Ready (orange), Go (green), Prepare for stop (red+orange).
+Is really simple to chang states by touching semaphore head: Stop (red) -> Ready (orange) -> Go (green) -> Prepare for stop (red+orange).
 
 ### IR control description
-For decoding IR was used arduino library [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data with your transmitter. For this situation is designed macro for debug
+Arduino library was used for deconding IR [IRLremote](https://github.com/NicoHood/IRLremote/blob/master/Readme.md) in mode _CHashIR_. Joystick transmitter has not standard Tx format, that means, _with different libraries, differend results will be obtained_. It's recomended to test receiveing data with your transmitter. For this situation is designed macro for debug
 ```cpp
 #define DEBUG //Comment this for stop debuging
 ```
@@ -62,7 +62,7 @@ const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A
                 {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
 ```
 ### Battery & discharging
-Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate, only orange LED is cyclic blinking (like in real situation - when traffic lights are out of order).
+Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order).
 ## Compilation
 Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
@@ -73,4 +73,4 @@ Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Sem
 * [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
 * [LEDs](https://www.tme.eu/cz/Document/01421dc8dab8fa585126521a0ba7da49/OSXXXXA1K4A.pdf)
 * Battery 18650
-* STL models (see STL model)
+* [STL models (see STL model)](https://www.thingiverse.com/thing:3239892)
