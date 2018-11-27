@@ -1,5 +1,5 @@
 # Semaphore with IR remote controler
-<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150">
+|<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150">|<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_cutted.png" width="150" height="150" alt="cutout">|
 
 **Motivation**: create toy for 2 years child for increasing knowlage about behavior on crossroads :)
 
@@ -72,5 +72,5 @@ Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Sem
 * [IR module](https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
 * [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
 * [LEDs](https://www.tme.eu/cz/Document/01421dc8dab8fa585126521a0ba7da49/OSXXXXA1K4A.pdf)
-* Battery 18650
+* Battery 18650 (inserted in leg)
 * [STL models (see STL model)](https://www.thingiverse.com/thing:3239892)
