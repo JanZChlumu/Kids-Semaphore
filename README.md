@@ -1,5 +1,5 @@
 # Semaphore with IR remote controler
-|<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150">|<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_cutted.png" width="150" height="150" alt="cutout">|
+<img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150"><img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_cutted.png" width="150" height="150" alt="cutout">
 
 **Motivation**: create toy for 2 years child for increasing knowlage about behavior on crossroads :)
 
