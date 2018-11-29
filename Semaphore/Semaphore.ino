@@ -1,36 +1,15 @@
 /*
-  Copyright (c) 2014-2015 NicoHood
-  See the readme for credit to other people.
-
-  IRL Receive_Raw
-
-  Receives IR signals and prints raw values to the Serial.
-  Please read the notes below, this example is used for developing/debugging only.
-
   The following pins are usable for PinInterrupt or PinChangeInterrupt*:
   Arduino Uno/Nano/Mini: 2, 3, All pins* are usable
-  Arduino Mega: 2, 3, 18, 19, 20, 21,
-               10*, 11*, 12*, 13*, 50*, 51*, 52*, 53*, A8 (62)*, A9 (63)*, A10 (64)*,
-               A11 (65)*, A12 (66)*, A13 (67)*, A14 (68)*, A15 (69)*
-  Arduino Leonardo/Micro: 0, 1, 2, 3, 7, 8*, 9*, 10*, 11*, 14 (MISO)*, 15 (SCK)*, 16 (MOSI)*
-  HoodLoader2: All (broken out 1-7*) pins are usable
-  Attiny 24/44/84: 8, All pins* are usable
-  Attiny 25/45/85: 2, All pins* are usable
-  Attiny 13: All pins* are usable
-  ATmega644P/ATmega1284P: 10, 11, All pins* are usable
 
-  PinChangeInterrupts* requires a special library which can be downloaded here:
-  https://github.com/NicoHood/PinChangeInterrupt
+IR libraly reference manual
+https://github.com/NicoHood/IRLremote/blob/master/Readme.md
 */
-//IR libraly reference manual
-//https://github.com/NicoHood/IRLremote/blob/master/Readme.md
-
-//include PinChangeInterrupt library* BEFORE IRLremote to acces more pins if needed
-//#include "PinChangeInterrupt.h"
 
 #include "IRLremote.h"
 #include "SemaphoreTypes.h"
 
+/* if DEBUG is used some IR Rx data could not be captured*/
 //#define DEBUG //Comment this for stop debuging
 #ifdef DEBUG
 	#define PRINT(x) Serial.print(x)
@@ -40,16 +19,15 @@
 	#define PRINTLN(x)
 #endif
 
-
 /*LEDs pins*/
-#define pinLedRed 6
-#define pinLedOrange 7
-#define pinLedGren	8
+#define pinLedRed 7
+#define pinLedOrange 8
+#define pinLedGren	9
 #define pinLedCheck LED_BUILTIN
 
 /*Switches */
-#define pinSwitchMode  12
-#define pinBtnTouch 10
+#define pinSwitchMode  5
+#define pinBtnTouch 4
 
 #define Led_OFF digitalWrite(pinLedCheck, LOW)
 #define Led_ON  digitalWrite(pinLedCheck, HIGH)
@@ -57,6 +35,8 @@
 /*IR sensor */
 #define pinIR 2
 CHashIR IRLremote;
+
+#define analogPin 0
 
 volatile Deb_TDebData sBtnTouch = {0,0,0}; //structure for button deboucing
 volatile SemHumanControlSteps_T SemControl = Manual;
@@ -139,19 +119,63 @@ void Debounce(int ActualState, Deb_TDebData * const DebounceData, word SampleCou
   }
 }
 
+#define arrayAvrSize  15   //used for average value
+/* after power on function slowly integrated to actual voltage value
+ * could not be activated offen - affect IR reading*/
+unsigned int AverageVoltage(void){
+	static int index = 0;
+	static int array[arrayAvrSize] = { 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023 };
+	static unsigned long oldTime = 0ul;
+	unsigned long actualTime = millis();
+	float suma = 0u;
+	unsigned int retVal;
+
+	if(actualTime > (oldTime + 500u)){
+		array[index] = analogRead(analogPin);
+
+		if(index < arrayAvrSize)
+		{
+			index++;
+		}else{
+			index = 0;
+		}
+		oldTime = actualTime;
+	}
+
+	for(int i = 0; i < arrayAvrSize; i++){
+		suma = suma + array[i];
+	}
+
+	retVal = (int)(suma/arrayAvrSize);
+//	PRINTLN(retVal);
+	return retVal;
+}
+
 void ReadControlSelection(void){
 	static int oldRead = 0;
 	int actualRead = digitalRead(pinSwitchMode);
 
-	if (( actualRead != oldRead)){
-		PRINT(F("Switch "));
-		PRINTLN(actualRead);
-		if(actualRead == 0u){
-			SemControl = IR2Manual;
-		}else{
-			SemControl = Manual2IR;
+#ifdef DEBUG
+//	delay(100);
+#endif
+
+	/*no hysteresis used, it's just a toy :-) */
+	if(AverageVoltage() > 850u) 	// measured (tested) constant. Approx. 3,1V on battery
+	{
+		if ((actualRead != oldRead) || (SemControl == BatteryLow)){
+			PRINT(F("Switch "));
+			PRINTLN(actualRead);
+			if(actualRead == 0u){
+				SemControl = IR2Manual;
+			}else{
+				SemControl = Manual2IR;
+			}
+			oldRead = actualRead;
 		}
-		oldRead = actualRead;
+	}else
+	{
+		PRINTLN(F("Under voltage"));
+		SemControl = BatteryLow;
 	}
 }
 
@@ -180,7 +204,6 @@ SemIRStates_T RxDecode(RxData_T * rx){
 				}
 				//TODO break;
 				}
-			
 		}
 	}
 	return retval;
@@ -243,8 +266,11 @@ void setup(){
 
 	digitalWrite(pinLedCheck, LOW);
 	SetSemColor(No_light);
+
+	analogReference(INTERNAL);  //analog reference set to 1.1V
 	Led_ON;
 }
+
 
 volatile bool oldBtn = FALSE;
 SemIRStates_T SemIRState = Idle;
@@ -330,14 +356,17 @@ void loop (){
 			delay(10);
 		break;
 		
+		/* Battery low - semaphore error*/
+		case BatteryLow:
+			Led_OFF;
+			SetSemColor(Orange);
+			delay(1000);
+			SetSemColor(No_light);
+			delay(1000);
+			Led_ON;
+			break;
+
 		default:			
 		break;					
 	}
 }
-
-
-
-
-
-
-
