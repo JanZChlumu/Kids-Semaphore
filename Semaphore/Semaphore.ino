@@ -127,8 +127,8 @@ unsigned int AverageVoltage(void){
 	static int array[arrayAvrSize] = { 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023 };
 	static unsigned long oldTime = 0ul;
 	unsigned long actualTime = millis();
-	float suma = 0u;
-	unsigned int retVal;
+	int suma = 0u;
+	static unsigned int retVal = 1023u;
 
 	if(actualTime > (oldTime + 500u)){
 		array[index] = analogRead(analogPin);
@@ -140,13 +140,14 @@ unsigned int AverageVoltage(void){
 			index = 0;
 		}
 		oldTime = actualTime;
+	
+		for(int i = 0; i < arrayAvrSize; i++){
+			suma = suma + array[i];
+		}
+		
+		retVal = (suma/arrayAvrSize);
 	}
-
-	for(int i = 0; i < arrayAvrSize; i++){
-		suma = suma + array[i];
-	}
-
-	retVal = (int)(suma/arrayAvrSize);
+	
 //	PRINTLN(retVal);
 	return retVal;
 }
