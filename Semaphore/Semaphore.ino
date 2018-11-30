@@ -152,6 +152,7 @@ unsigned int AverageVoltage(void){
 	return retVal;
 }
 
+#define BATTERY_LOW_LEVEL 850   // measured (tested) constant. Approx. 3,1V on battery
 void ReadControlSelection(void){
 	static int oldRead = 0;
 	int actualRead = digitalRead(pinSwitchMode);
@@ -161,7 +162,7 @@ void ReadControlSelection(void){
 #endif
 
 	/*no hysteresis used, it's just a toy :-) */
-	if(AverageVoltage() > 850u) 	// measured (tested) constant. Approx. 3,1V on battery
+	if(AverageVoltage() > BATTERY_LOW_LEVEL) 	
 	{
 		if ((actualRead != oldRead) || (SemControl == BatteryLow)){
 			PRINT(F("Switch "));
@@ -267,9 +268,11 @@ void setup(){
 
 	digitalWrite(pinLedCheck, LOW);
 	SetSemColor(No_light);
-
+	
 	analogReference(INTERNAL);  //analog reference set to 1.1V
 	Led_ON;
+	/* RUN ONCE */
+	ReadControlSelection();	
 }
 
 
@@ -280,12 +283,13 @@ volatile bool tLock = FALSE;
 void loop (){
 	bool actBtn  = FALSE;
 	
-	ReadControlSelection();
+//	ReadControlSelection();
 	
 	switch(SemControl){
 		/*Manual control*/
 		case Manual:
 //			Debounce(digitalRead(pinBtnTouch), &sBtnTouch, 50u); //debounce some time
+			ReadControlSelection();			
 			actBtn = digitalRead(pinBtnTouch);
 
 			/*button has two state; touch, release. Only touch state is accessible */
@@ -313,19 +317,19 @@ void loop (){
 		/* IR control */
 		case IR:
 			if (IRLremote.available()){
-					Led_ON;
-					HashIR_data_t rx_data = IRLremote.read();
-					RxData.RxBuffer[RxData.dataIndex] = rx_data.command;
+				Led_ON;
+				HashIR_data_t rx_data = IRLremote.read();
+				RxData.RxBuffer[RxData.dataIndex] = rx_data.command;
 
-					PRINT(RxData.dataIndex);
-					PRINT(F(" Rx "));
-					PRINTLN(rx_data.command);
+				PRINT(RxData.dataIndex);
+				PRINT(F(" Rx "));
+				PRINTLN(rx_data.command);
 
-					if(RxData.dataIndex < BUFFER_SIZE){
-						RxData.dataIndex++;
-					}else{
-						//buffer full
-					}
+				if(RxData.dataIndex < BUFFER_SIZE){
+					RxData.dataIndex++;
+				}else{
+					//buffer full
+				}
 			}
 
 			/*Receiving is finished in 500ms (650ms is for sure) */
@@ -344,6 +348,8 @@ void loop (){
 
 					PRINTLN(F("clear"));
 				}
+				/*do when no receiveing expected*/
+				ReadControlSelection();	
 			}
 
 			/*Semaphore state machine*/
