@@ -63,7 +63,7 @@ Used charger is little bit stupid and doesn't solve problem with deep discharge.
 Other case is when child forgot on toy after 15 minutes timeout 15 minutes, semaphore goes over sleep mode. Minimum power consumption in this situation is 250uA.
 For increasing low power consumption was removed [LDO regulator](http://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf) and power on LED from Arduino Mini.
 ## Compilation
-Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
+Project was setup for Eclipse with arduino plugin. Last [hex](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
 * [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
 * [Arduino mini](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn), [schema](https://cdn.sparkfun.com/datasheets/Dev/Arduino/Boards/Arduino-Pro-Mini-v14.pdf)
