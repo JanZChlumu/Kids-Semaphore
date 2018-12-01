@@ -61,11 +61,12 @@ const HashIR_command_t IrRxCommnad[2][4] = {  //[command],[transmitter mode A/B]
 ### Battery & discharging
 Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order).
 Other case is when child forgot on toy after 15 minutes timeout 15 minutes, semaphore goes over sleep mode. Minimum power consumption in this situation is 250uA.
+For increasing low power consumption was removed [LDO regulator](http://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf) and power on LED from Arduino Mini.
 ## Compilation
 Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
 * [Lipol charger](https://www.electroschematics.com/10551/tp4056-lipo-battery-charger-rc-toys/)
-* [Arduino nano](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn)
+* [Arduino mini](https://www.aliexpress.com/item/ATMEGA328P-Pro-Mini-328-Mini-ATMEGA328-5V-16MHz-5V-16M-for-arduino/32831029894.html?spm=a2g0s.9042311.0.0.64d94c4dOIaAYn), [schema](https://cdn.sparkfun.com/datasheets/Dev/Arduino/Boards/Arduino-Pro-Mini-v14.pdf)
 * [Capacity button](https://www.aliexpress.com/item/TTP223-Module-Capacitive-Touch-Switch-Button-Self-Lock-Key-Module-2-5-5-5V/32709015595.html?spm=a2g0s.9042311.0.0.27424c4d5RztuN)
 * [IR module](https://www.tme.eu/cz/Document/c26cc9aca2ad933c9d4bdc84e43ef900/TSOP2238.pdf)
 * [Switch](https://www.tme.eu/cz/details/s1501/posuvne-prepinace/)
