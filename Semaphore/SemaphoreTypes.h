@@ -17,13 +17,9 @@
 #ifndef SEMAPHORETYPES_H_
 #define SEMAPHORETYPES_H_
 
-#define BUFFER_SIZE 7
+#define BUFFER_SIZE 3
 #define FALSE 0
 #define TRUE 1
-#define ModeA 0
-#define ModeB 1
-#define Frame_0 0
-#define Frame_1 1
 
 typedef enum {
 	Red = 0,
@@ -38,34 +34,22 @@ typedef enum {
 	Manual = 0,
 	Manual2IR,
 	IR,
-	IR2Manual
+	IR2Manual,
+	BatteryLow
 }SemHumanControlSteps_T;
 
 typedef enum {
-	Idle = 0,
-	Go2Stop,
-	Go2Run,
+	Go2Stop = 0,
+	Go2Run = 1,
+	NotValid,
 	Run,
 	Stop
 }SemIRStates_T;
 
 typedef struct {
 	unsigned char dataIndex;
-	unsigned char newMsg;
 	HashIR_command_t RxBuffer[BUFFER_SIZE];
 }RxData_T;
-
-/* Debounce structure*/
-typedef struct
-{
-  /** De bounced value. */
-  int DebValue;
-  /** Not yet de bounced value. */
-  int NotDebValue;
-  /** De bouncing counter - actual value. */
-  word Counter;
-} Deb_TDebData;
-
 
 
 #endif /* SEMAPHORETYPES_H_ */
