@@ -59,9 +59,12 @@ const HashIR_command_t IrRxCommnad[2][4] = {  //[command],[transmitter mode A/B]
 	{0x90B1027A,    0x20E9B7A,   0xC4EF317A,   0x364CCA7A}};  /*Go2Run (all long hold positions)*/
 ```
 ### Battery & discharging
-Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order).
-Other case is when child forgot on toy after 15 minutes timeout 15 minutes, semaphore goes over sleep mode. Minimum power consumption in this situation is 250uA.
-For increasing low power consumption was removed [LDO regulator](http://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf) and power on LED from Arduino Mini.
+Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order) and 15 minutes power off mode is activated.
+
+Other case is when child forgot on toy for 15 minutes, semaphore goes over sleep mode. 
+
+Minimum power consumption for bought situations is 250uA.
+For increasing low power consumption was removed [LDO regulator](http://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf), power on LED from Arduino Mini, IR sensor and capapity button is disconned form power supply ( see [schematic](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/miscellaneous/Semaphore_schematic.pdf)). 
 ## Compilation
 Project was setup for Eclipse with arduino plugin. Last [hex](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
