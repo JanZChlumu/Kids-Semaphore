@@ -33,36 +33,34 @@ Joystick has two modes A or B with different transmited data. Lever has 4 states
 
 |Rx data|UP tip	   |UP long   |	DOWN tip  |	DOWN long |
 | ---   | -------- | -------- | --------- | --------- |
-|0      |0x90B1027A|0x90B1027A	|0x20E9B7A|0x20E9B7A|
-|1      |0xFF7A3B7A|0x90B1027A	|0xFF7A3B7A|0x20E9B7A|
-|2      |0xFF7A3B7A|0x90B1027A	|0xFF7A3B7A|0x20E9B7A|
-|3      |0xFF7A3B7A|            |0xFF7A3B7A|	
+|0      |0x90B1027A|**0x90B1027A**	|0x20E9B7A|**0x20E9B7A**|
+|1      |**0xFF7A3B7A**|**0x90B1027A**	|**0xFF7A3B7A**|**0x20E9B7A**|
+|2      |**0xFF7A3B7A**|**0x90B1027A**	|**0xFF7A3B7A**|**0x20E9B7A**|
+|3      |**0xFF7A3B7A**|            |**0xFF7A3B7A**|	
 
 
 **Mode B**
 
 |Rx data|UP tip	   |UP long   |	DOWN tip  |	DOWN long |
 | ---   | -------- | -------- | --------- | --------- |
-|0      |0xC4EF317A|0xC4EF317A|	0x364CCA7A|	0x364CCA7A|
-|1      |0x33B86A7A|0xC4EF317A|	0x33B86A7A| 0x364CCA7A|
-|2      |0x33B86A7A|0xC4EF317A|	0x33B86A7A|	0x364CCA7A|
-|3      |0x33B86A7A|          | 0x33B86A7A|	          |
+|0      |0xC4EF317A    |**0xC4EF317A**|	    0x364CCA7A|	**0x364CCA7A**|
+|1      |**0x33B86A7A**|**0xC4EF317A**|	**0x33B86A7A**|     **0x364CCA7A**|
+|2      |**0x33B86A7A**|**0xC4EF317A**|	**0x33B86A7A**|	**0x364CCA7A**|
+|3      |**0x33B86A7A**|              | **0x33B86A7A**|	          |
 
 
-The longerst datagram (with 4 Rx data) takes approx 500ms. Folder _Semafor_IR_datagram_ contains Tx datagrams from aplication Salae Logic. 
-I solved lot of problems with IRLremote library. Best solution was create big buffer, after receiving first edge timeout function is triggered. We stop receiveing after 650ms (condition ```if(IRLremote.timeout() > 650000u)``` ). Next step is tring to decode buffered data. 
-
-For easy implementation are read and decoded only 2 first rx data. Relevant joystick lever combinations are stored in
+When we look on data we'll see that the best solution how to decode position is read last 3 data datagrams (bold in tables).
+The relevant joystick lever combinations are stored in:
 ```cpp
-/*commands received from train joystick*/
-const HashIR_command_t IrRxCommnad[4][2][2] = {  //[command],[transmitter mode A/B], [two first commnads ]
-		{{0xC4EF317A,0x33B86A7A},{0x90B1027A,0xFF7A3B7A}} ,       /*Forward move TIP  -> Go2Stop*/
-		{{0xC4EF317A,0xC4EF317A},{0x90B1027A,0x90B1027A}} ,       /*Forward move LONG -> Go2Run */
-		{{0x364CCA7A,0x33B86A7A},{0x20E9B7A, 0xFF7A3B7A}} ,       /*Reverse move TIP  -> Go2Stop*/
-                {{0x364CCA7A,0x364CCA7A},{0x20E9B7A, 0x20E9B7A}}};        /*Reverse move LONG -> Go2Run */
+/*commands received from joystick*/
+const HashIR_command_t IrRxCommnad[2][4] = {  //[command],[transmitter mode A/B]
+    //  { mode A UP,  mode A DOWN,    mode B UP,   mode B DOWN}
+  	{0xFF7A3B7A,   0xFF7A3B7A,   0x33B86A7A,   0x33B86A7A},   /*Go2Stop (all TIP positions)*/
+	{0x90B1027A,    0x20E9B7A,   0xC4EF317A,   0x364CCA7A}};  /*Go2Run (all long hold positions)*/
 ```
 ### Battery & discharging
 Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order).
+Other case is when child forgot on toy after 15 minutes timeout 15 minutes, semaphore goes over sleep mode. Minimum power consumption in this situation is 250uA.
 ## Compilation
 Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Semaphore/Release/Semaphore.hex) file is stored in project.
 ## Semaphore parts
@@ -74,3 +72,7 @@ Project was setup for Eclipse with arduino plugin. Last [hex](Kids-Semaphore/Sem
 * [LEDs](https://www.tme.eu/cz/Document/01421dc8dab8fa585126521a0ba7da49/OSXXXXA1K4A.pdf)
 * Battery 18650 (inserted in leg)
 * [STL models (see STL model)](https://www.thingiverse.com/thing:3239892)
+
+## Other links
+* [Schematic](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/miscellaneous/Semaphore_schematic.pdf)
+* [Final product picture](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/miscellaneous/finished_set.jpg)
