@@ -1,5 +1,6 @@
 # Semaphore with IR remote controler
 <img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_view.png" width="150" height="150"><img src="https://github.com/JanZChlumu/Kids-Semaphore/blob/master/STL%20model/sem_cutted.png" width="150" height="150" alt="cutout">
+[Demonstration video (YouTube)](https://youtu.be/u1l54P9FhmE)
 
 **Motivation**: create toy for 2 years child for increasing knowlage about behavior on crossroads :)
 
@@ -61,7 +62,7 @@ const HashIR_command_t IrRxCommnad[2][4] = {  //[command],[transmitter mode A/B]
 ### Battery & discharging
 Used charger is little bit stupid and doesn't solve problem with deep discharge. That's why indication function was implemented. When Lion battery reach 3,1V all semaphore functions are deactivate only orange LED is cyclicaly blinking (like in real situation - when traffic lights are out of order) and 15 minutes power off mode is activated.
 
-Other case is when child forgot on toy for 15 minutes, semaphore goes over sleep mode. 
+Other case is when child forgot on the toy for 15 minutes, semaphore goes over sleep mode. 
 
 Minimum power consumption for bought situations is 250uA.
 For increasing low power consumption was removed [LDO regulator](http://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf), power on LED from Arduino Mini, IR sensor and capapity button is disconned form power supply ( see [schematic](https://github.com/JanZChlumu/Kids-Semaphore/blob/master/miscellaneous/Semaphore_schematic.pdf)). 
